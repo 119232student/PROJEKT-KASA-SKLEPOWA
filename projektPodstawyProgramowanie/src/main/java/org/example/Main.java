@@ -1,8 +1,5 @@
 package org.example;
 
-
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -44,7 +41,6 @@ public class Main {
                 shopping();
             }
         } while (!choosedOption.equals("3") && !choosedOption.equals("2"));
-
     }
 
         public static void showProducts(){
@@ -54,43 +50,44 @@ public class Main {
             }
         }
         public static void shopping(){
-        System.out.println("KOD KRESKOWY LUB WYDRUK PARAGONU (P)");
-        Scanner scanner = new Scanner(System.in);
-        String input = scanner.next();
-        while(!input.equalsIgnoreCase("p")){
-            Product product = null;
-            for(int i = 0; i<productsList.size(); i++){
-                if(input.equals(productsList.get(i).getBarCode())){
-                    product = productsList.get(i);
-                }
-            }
-            if (product == null){
-                System.out.println("NIEPRAWIDŁOWY KOD PRODUKTU");
-            }else {
-                System.out.println(product.getProductName());
-                totalPrice += product.getPrice();
-                System.out.println("CENA ŁĄCZNA: " + round(totalPrice) + "ZŁ");
-                totalProductsList.add(product);
-            }
             System.out.println("KOD KRESKOWY LUB WYDRUK PARAGONU (P)");
-            input = scanner.next();
-        }
-        receipt();
+            Scanner scanner = new Scanner(System.in);
+            String input = scanner.next();
+            while(!input.equalsIgnoreCase("p")){
+                Product product = null;
+                for(int i = 0; i<productsList.size(); i++){
+                    if(input.equals(productsList.get(i).getBarCode())){
+                        product = productsList.get(i);
+                    }
+                }
+                if (product == null){
+                    System.out.println("NIEPRAWIDŁOWY KOD PRODUKTU");
+                }else {
+                    System.out.println(product.getProductName());
+                    totalPrice += product.getPrice();
+                    System.out.println("CENA ŁĄCZNA: " + round(totalPrice) + "ZŁ");
+                    totalProductsList.add(product);
+                }
+                System.out.println("KOD KRESKOWY LUB WYDRUK PARAGONU (P)");
+                input = scanner.next();
+            }
+            receipt();
         }
         public static void receipt(){
-        System.out.println("---------------------------------");
-        System.out.println("PARAGON");
-        Date data = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-        System.out.println("DATA ZAKUPU: " + dateFormat.format(data));
-        System.out.println("---------------------------------");
-        for(int j = 0; j<totalProductsList.size(); j++){
-            System.out.println(totalProductsList.get(j).getProductName() + " | " + round(totalProductsList.get(j).getPrice()) + "ZŁ");
-        }
-        System.out.println("---------------------------------");
-        System.out.println("DO ZAPŁATY: " + round(totalPrice) + "ZŁ");
-        float total_vat = totalPrice - (totalPrice / vat);
-        System.out.println("W TYM VAT: " + round(total_vat) + "ZŁ");
+            System.out.println("---------------------------------");
+            System.out.println("PARAGON");
+            Date data = new Date();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+            System.out.println("DATA ZAKUPU: " + dateFormat.format(data));
+            System.out.println("---------------------------------");
+            for(int j = 0; j<totalProductsList.size(); j++){
+                System.out.println(totalProductsList.get(j).getProductName() +
+                        " | " + round(totalProductsList.get(j).getPrice()) + "ZŁ");
+            }
+            System.out.println("---------------------------------");
+            System.out.println("DO ZAPŁATY: " + round(totalPrice) + "ZŁ");
+            float total_vat = totalPrice - (totalPrice / vat);
+            System.out.println("W TYM VAT: " + round(total_vat) + "ZŁ");
         }
         public static String round(float var){
            return String.format("%.2f", Math.round(var * 100)/100f);
